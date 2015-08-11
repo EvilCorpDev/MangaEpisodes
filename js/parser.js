@@ -15,8 +15,8 @@ function addManga() {
 	}
 }
 
-function delManga($link) {
-	console.log('deleting', $link);
+function delManga($element) {
+	deleteManga($element.find('a').text(), $element);
 }
 
 function getLastEpisode(url) {

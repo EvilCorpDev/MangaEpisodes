@@ -53,19 +53,37 @@
 	var dbName = "manga",  
 	collectionName = "episodes",  
 	mangaJSON =  "{ \"title\": \"" + mangaObj.title+ "\", \"url\": \"" + mangaUrl + "\", \"episode\": " + mangaObj.episode + " }";
-	var result; 
 	var key = "title";
 	var value = mangaObj.title;
-	storageService.updateDocumentByKeyValue(dbName, collectionName, key, value, mangaJSON, {    
-		success: function(object) {    
-        	var storageObj = JSON.parse(object);  
+	storageService.updateDocumentByKeyValue(dbName, collectionName, key, value, mangaJSON, {
+		success: function(object) {
+        	var storageObj = JSON.parse(object);
         	console.log("dbName is :" +storageObj.app42.response.storage.dbName);
         	console.log(storageObj);
-    	},    
+    	},
     	error: function(error) {
-    		console.log(error);  
-    	}    
-	});    
+    		console.log(error);
+    	}
+	});  
+ }
+
+ function deleteManga(mangaTitle) {
+ 	App42.initialize("d01ddd44c7b6c64faa216d96db39e3fb0cda97ee66c442fa5927a6ee30ade450",
+		"cd7f10ada60d0d7585240ef6bb0684191096264efe308a3f3ebdf5c1d37772e1"); 
+	var storageService  = new App42Storage();
+	var dbName = "manga",  
+	collectionName = "episodes"; 
+	var key = "title";
+	var value = mangaTitle;
+	storageService.deleteDocumentsByKeyValue(dbName, collectionName, key, value, {
+		success: function(object) {
+			$element.remove();
+			console.log(object); 	
+		},
+		error: function(error) {
+    		console.log(error);
+    	}
+	});
  }
  
  function getAllManga() {

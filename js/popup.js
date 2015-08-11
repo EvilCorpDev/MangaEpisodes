@@ -13,8 +13,7 @@ function showMangaEpisodes(mangaList) {
 		appendElement(mangaList[i]);
 	}
 	$('.del-btn').click(function(event) {
-		console.log($(event.target).parent());
-		delManga();
+		delManga($(event.target).parent());
 	});
 }
 
