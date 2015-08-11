@@ -1,6 +1,7 @@
 {
  "name": "Manga Episodes", // Название расширения
- "version": "1.0", // Номер версии
+ "manifest_version": 2,
+ "version": "1.0",
  "description": "Parse last manga episode and notificate if new one comes", // Описание расширения
 
  "permissions": [
@@ -13,8 +14,6 @@
  "browser_action": { // Элементы браузера
   "default_title": "Manga Episodes", // Название кнопки
   "default_icon": "images/icon.png", // Иконка для кнопки
-  "popup": "popup.html" // Всплывающее окно
- },
-
- "options_page": "options.html" // Страница настроек
+  "default_popup": "popup.html" // Всплывающее окно
+ }
 }
