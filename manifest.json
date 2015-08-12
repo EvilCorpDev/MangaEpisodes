@@ -20,6 +20,11 @@
  "browser_action": { // Элементы браузера
   "default_title": "Manga Episodes", // Название кнопки
   "default_icon": "images/icon.png", // Иконка для кнопки
+  "icons": {
+  	"128": "images/icon.png",
+  	"48": "images/icon.png",
+  	"16": "images/icon.png"
+  },
   "default_popup": "popup.html" // Всплывающее окно
  }
 }

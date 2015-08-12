@@ -13,7 +13,7 @@
     console.log('createAlarm');
      chrome.alarms.create(alarmName, {
       when: Date.now() + 3000,
-      periodInMinutes: 1
+      periodInMinutes: 60
     });
    }
 
@@ -23,10 +23,6 @@
 
   if(!checkAlarm()) {
     createAlarm();
-    chrome.alarms.onAlarm.addListener(
-      function(alarm) {
-        console.log('adsasdad', alarm);
-    });
   }
 
 })();
