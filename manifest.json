@@ -6,10 +6,16 @@
 
  "permissions": [
   "tabs", // Разрешить расширению работать с вкладками
+  "alarms",
   "http://www.mangareader.net/*",
   "http://www.mangareader.net/*",
   "http://mangafox.me/*"
  ],
+
+ "background": {
+    "scripts": ["js/timer-job.js", "js/App42-all-3.0.min.js", "js/jquery.min.js", "js/parser.js", "js/store.js"],
+    "persistent": false
+  },
 
  "browser_action": { // Элементы браузера
   "default_title": "Manga Episodes", // Название кнопки

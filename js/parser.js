@@ -19,7 +19,15 @@ function delManga($element) {
 	deleteManga($element.find('a').text(), $element);
 }
 
-function getLastEpisode(url) {
+function readManga($element) {
+	var mangaObj = {};
+	mangaObj.title = $element.find('a').text();
+	mangaObj.url = $element.find('a').attr('href');
+	mangaObj.episode = $element.find('.manga-episode').text();
+	updateManga(mangaObj.url, mangaObj, false, $element);
+}
+
+function getLastEpisode(url, mangaObj) {
 	$.ajaxPrefilter( function (options) {
 		if (options.crossDomain && jQuery.support.cors) {
 			var http = (window.location.protocol === 'http:' ? 'http:' : 'https:');
@@ -28,9 +36,22 @@ function getLastEpisode(url) {
 		}
 	});
 	$.get(url, function(data) {
-		var mangaObj = callParser(url, $(data));
-		addUpdateManga(url, mangaObj);
+		var newMangaObj = callParser(url, $(data));
+		console.log(newMangaObj);
+		addLastEpisode(mangaObj, newMangaObj, url);
 	});
+}
+
+function addLastEpisode(mangaObj, newMangaObj, url) {
+	if(mangaObj != undefined) {
+		if(mangaObj.episode < newMangaObj.episode) {
+			addUpdateManga(url, newMangaObj);
+			return;
+		} else {
+			return;
+		}
+	}
+	addUpdateManga(url, newMangaObj);
 }
 
 function callParser(url, $data) {
