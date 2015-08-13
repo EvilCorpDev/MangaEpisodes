@@ -13,9 +13,13 @@ var templateManga = "<dt><div class='list-element'><div class='manga-title inlin
 
 function showMangaEpisodes(mangaList) {
 	var mangaListElement;
+	var newCount = 0;
 	for(var i = 0; i < mangaList.length; i++) {
-		appendElement(mangaList[i]);
+		if(appendElement(mangaList[i])) {
+			newCount++;
+		}
 	}
+	chrome.browserAction.setBadgeText({text: newCount.toString()});
 	$('.del-btn').click(function(event) {
 		delManga($(event.target).parent());
 	});
@@ -25,6 +29,7 @@ function showMangaEpisodes(mangaList) {
 }
 
 function appendElement(mangaElem) {
+	var isNew;
 	mangaListElement = templateManga.substr(0, templateManga.length);
 	mangaListElement = mangaListElement.replace("%title%", mangaElem.title);
 	mangaListElement = mangaListElement.replace("%episode%", mangaElem.episode);
@@ -34,10 +39,11 @@ function appendElement(mangaElem) {
 		if(mangaElem['is-new']) {
 			$child.find('.list-element').addClass('list-element__new-episode');
 			$child.find('.read-btn').show();
-			chrome.browserAction.setBadgeText({text: "new"});
+			isNew = true;
 		}
 	}
 	$('.manga-container').append($child);
+	return isNew
 }
 
 function setUpUrl() {

@@ -87,9 +87,9 @@
         	if(!isNew) {
         		$element.removeClass('list-element__new-episode');
         		$element.find('.read-btn').hide();
-        		chrome.browserAction.setBadgeText({text: ""});
+        		setNewCount(false);
         	} else {
-        		chrome.browserAction.setBadgeText({text: "new"});
+        		setNewCount(true);
         	}
     	},
     	error: function(error) {
@@ -127,4 +127,17 @@
 			showMangaEpisodes(storageObj.app42.response.storage.jsonDoc);
 		}
 	});
+ }
+
+ function setNewCount(increase) {
+ 	chrome.browserAction.getBadgeText({}, function(text) {
+ 		var num = parseInt(text);
+ 		if(increase) {
+ 			num++;
+ 			chrome.browserAction.setBadgeText({text: num.toString()});
+ 		} else {
+ 			num--;
+ 			chrome.browserAction.setBadgeText({text: num.toString()});
+ 		}
+ 	});
  }
