@@ -59,6 +59,9 @@
 	storageService.insertJSONDocument(dbName, collectionName, mangaJSON,{    
 		success: function(object) {
 			var json = JSON.parse(object);
+			var allManga = JSON.parse(localStorage.getItem('allManga'));
+			allManga.push(json.app42.response.storage.jsonDoc);
+			localStorage.setItem('allManga', JSON.stringify(allManga));
 			appendElement(json.app42.response.storage.jsonDoc);
 			console.log("inserted");
 		},    
@@ -83,6 +86,7 @@
 	var value = mangaObj.title;
 	storageService.updateDocumentByKeyValue(dbName, collectionName, key, value, mangaJSON, {
 		success: function(object) {
+			updateLocalStorage(object, mangaObj);
 			console.log('update');
         	if(!isNew) {
         		$element.removeClass('list-element__new-episode');
@@ -98,6 +102,21 @@
 	});  
  }
 
+ function updateLocalStorage(object, mangaObj) {
+ 	var storageObj = JSON.parse(object);
+	var updated = storageObj.app42.response.storage.jsonDoc[0];
+	var allManga = JSON.parse(localStorage.getItem('allManga'));
+	for(var i = 0; i < allManga.length; i++) {
+		console.log(allManga[i]);
+		if(allManga[i].title === mangaObj.title) {
+			console.log('dasdasd', updated);
+			allManga[i] = updated;
+			break;
+		}
+	}
+	localStorage.setItem('allManga', JSON.stringify(allManga));
+ }
+
  function deleteMangaById(docId, $element) {
  	App42.initialize("d01ddd44c7b6c64faa216d96db39e3fb0cda97ee66c442fa5927a6ee30ade450",
 		"cd7f10ada60d0d7585240ef6bb0684191096264efe308a3f3ebdf5c1d37772e1"); 
@@ -107,6 +126,15 @@
 	storageService.deleteDocumentById(dbName, collectionName, docId, {  
 		success: function(object) {
 			$element.remove();
+			var allManga = JSON.parse(localStorage.getItem('allManga'));
+			for(var i = 0; i < allManga.length; i++) {
+				console.log(allManga[i]);
+				if(allManga[i]._id.$oid === docId) {
+					allManga.splice(i, 1);
+					break;
+				}
+			}
+			localStorage.setItem('allManga', JSON.stringify(allManga));
 			console.log(object); 	
 		},
 		error: function(error) {
@@ -123,8 +151,10 @@
 	collectionName = "episodes";
 	storageService.findAllDocuments(dbName, collectionName,{
 		success: function(object) {
-			var storageObj = JSON.parse(object);				
-			showMangaEpisodes(storageObj.app42.response.storage.jsonDoc);
+			var storageObj = JSON.parse(object);
+			var mangas = storageObj.app42.response.storage.jsonDoc;
+			localStorage.setItem('allManga', JSON.stringify(mangas));
+			showMangaEpisodes(mangas);
 		}
 	});
  }

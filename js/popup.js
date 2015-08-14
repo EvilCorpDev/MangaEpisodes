@@ -1,5 +1,5 @@
 $(function() {
-	getAllManga();
+	getMangaEpisodes();
 	setUpUrl();
 })
 
@@ -26,6 +26,14 @@ function showMangaEpisodes(mangaList) {
 	$('.read-btn').click(function(event) {
 		readManga($(event.target).parent());
 	});
+}
+
+function getMangaEpisodes() {
+	if(localStorage.getItem('allManga') == undefined) {
+		getAllManga();
+	} else {
+		showMangaEpisodes(JSON.parse(localStorage.getItem('allManga')));
+	}
 }
 
 function appendElement(mangaElem) {
