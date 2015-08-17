@@ -21,6 +21,5 @@ function checkForUpdates(storage) {
 }
 
 chrome.alarms.onAlarm.addListener(function(alarm) {
-	console.log('adsasdad', alarm);
 	checkForNewEpisodes();
 });
