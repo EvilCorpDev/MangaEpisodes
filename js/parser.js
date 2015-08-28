@@ -58,12 +58,15 @@ function callParser(url, $data) {
 	var mangaFox = 'http://mangafox.me/';
 	var mangaReader = 'http://www.mangareader.net/';
 	var readManga = 'http://readmanga.me/';
+	var readMangaToday = 'http://www.readmanga.today/';
 	if(url.indexOf(mangaFox) === 0) {
 		return getMangaObjMangaFox($data);
 	} else if(url.indexOf(mangaReader) === 0) {
 		return getMangaObjMangaReader($data);
 	} else if(url.indexOf(readManga) === 0) {
 		return getMangaObjReadManga($data);
+	} else if(url.indexOf(readMangaToday) === 0) {
+		return getReadMangaTodayObject($data);
 	}
 }
 
@@ -88,10 +91,17 @@ function getMangaObjMangaReader($data) {
 	return manga;
 }
 
+function getReadMangaTodayObject($data) {
+	var manga = {};
+	manga.episode = getEpisodeReadMangaToday($data);
+	manga.title = getTitleReadMangaToday($data);
+	return manga;	
+}
+
 function getEpisodeReadManga($data) {
 	var $link = $($data.find('.read-last').find('a')[0]);
 	var href = $link.attr('href');
-	return href.substr(href.lastIndexOf('/') + 1, href.number);
+	return Number.parseInt(href.substr(href.lastIndexOf('/') + 1, href.number));
 }
 
 function getTitleReadManga($data) {
@@ -106,7 +116,7 @@ function getEpisodeMangaFox($data) {
 	var $link = $($chList.find('h3')[0]).find('a');
 	var href = $link.attr('href');
 	href = href.substr(0, href.lastIndexOf('/'));
-	return href.substr(href.lastIndexOf('/') + 2, href.number);
+	return Number.parseInt(href.substr(href.lastIndexOf('/') + 2, href.number));
 }
 
 function getTitleMangaFox($data) {
@@ -116,9 +126,19 @@ function getTitleMangaFox($data) {
 function getEpisodeMangaReader($data) {
 	var $chList = $($data.find('#latestchapters')[0]);
 	var href = $($chList.find('a')[0]).attr('href');
-	return href.substr(href.lastIndexOf('/') + 1, href.number);
+	return Number.parseInt(href.substr(href.lastIndexOf('/') + 1, href.number));
 }
 
 function getTitleMangaReader($data) {
 	return $data.find('#mangaproperties').find('h1').text();	
+}
+
+function getEpisodeReadMangaToday($data) {
+	var url = $data.find('.chp_lst').find('a').attr('href');
+	url = url.substr(url.lastIndexOf('/') + 1, url.length);
+	return Number.parseInt(url);
+}
+
+function getTitleReadMangaToday($data) {
+	return $($data.find('.panel-heading')[0]).find('h1').text();
 }
