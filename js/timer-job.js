@@ -15,6 +15,10 @@
 function checkForUpdates(storage) {
 	var storageObj = JSON.parse(storage);
 	var allManga = storageObj.app42.response.storage.jsonDoc;
+	var localManga = JSON.parse(localStorage.getItem('allManga'));
+	if(allManga.length != localManga.length) {
+		localStorage.setItem('allManga', JSON.stringify(allManga));
+	}
 	for(var i = 0; i < allManga.length; i++) {
 		getLastEpisode(allManga[i].url, allManga[i]);
 	}
